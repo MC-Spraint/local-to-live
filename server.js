@@ -35,8 +35,8 @@ app.post('/*', (req, res) => {
 
 io.on('connection', (client) => {
     console.log('a node connected');
-    client.on("page-response", (response) => {
-        clientResponseRef.send(response);
+    client.on("page-response", (res) => {
+        clientResponseRef.send(res);
     })
 })
 
