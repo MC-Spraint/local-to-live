@@ -4,7 +4,8 @@ var io = require('socket.io')(serverJs);
 var url = require("url");
 var bodyParser = require('body-parser');
 
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 var clientResponseRef;
 app.get('/*', (req, res) => {
@@ -36,7 +37,9 @@ app.post('/*', (req, res) => {
 io.on('connection', (client) => {
     console.log('a node connected');
     client.on("page-response", (res) => {
-        clientResponseRef.send(res);
+
+	    clientResponseRef.send(res);
+
     })
 })
 
