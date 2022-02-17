@@ -1,29 +1,27 @@
-var socketServerUrl = "http://localhost:3000";
-var hostToLive = "http://localhost:4200";
-
-var client = require("socket.io-client")(socketServerUrl);
-const { SSL_OP_NO_TICKETS } = require("constants");
+const client = require("socket.io-client")(socketServerUrl);
 const superagent = require("superagent");
+const { SSL_OP_NO_TICKETS } = require("constants");
+
+const socketServerUrl = "http://localhost:4200";
+const hostToLive = "http://localhost:3000";
 
 function executeGet(url,params){
-        superagent.get(url)
+        superagent
+        .get(url)
         .query(params)
         .end((err,res) =>{
                 if(err){ console.log(err); }
-                else{
-                client.emit("page-response", res.text);
-                }
+                else{ client.emit("page-response", res.text); }
         })
 }
 
 function executePost(url,params){
-        superagent.post(url)
+        superagent
+        .post(url)
         .query(params)
         .end((err,res) =>{
                 if(err){ console.log(err); }
-                else{
-                client.emit("page-response", res.text);
-                }
+                else{ client.emit("page-response", res.text); }
         })
 }
 

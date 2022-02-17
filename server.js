@@ -1,17 +1,18 @@
-var app = require('express')();
-var serverJs = require('http').createServer(app);
-var io = require('socket.io')(serverJs);
-var url = require("url");
-var bodyParser = require('body-parser');
+const app = require('express')();
+const serverJs = require('http').createServer(app);
+const io = require('socket.io')(serverJs);
+const bodyParser = require('body-parser');
+const url = require("url");
+const PORT = process.env.YOUR_PORT || process.env.PORT || 4200;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-var clientResponseRef;
+let clientResponseRef;
 app.get('/*', (req, res) => {
-    var pathname = url.parse(req.url).pathname;
+    let pathname = url.parse(req.url).pathname;
 
-    var obj = {
+    let obj = {
         pathname: pathname,
         method: "get",
         params: req.query
@@ -22,9 +23,9 @@ app.get('/*', (req, res) => {
 })
 
 app.post('/*', (req, res) => {
-    var pathname = url.parse(req.url).pathname;
+    let pathname = url.parse(req.url).pathname;
 
-    var obj = {
+    let obj = {
         pathname: pathname,
         method: "post",
         params: req.body
@@ -37,14 +38,10 @@ app.post('/*', (req, res) => {
 io.on('connection', (client) => {
     console.log('a node connected');
     client.on("page-response", (res) => {
-
-	    clientResponseRef.send(res);
-
+        clientResponseRef.send(res);
     })
 })
 
-var server_port = process.env.YOUR_PORT || process.env.PORT || 3000;
-
 serverJs.listen(server_port, () => {
-    console.log('listening on *:' + server_port);
+    console.log(`Server listening on ${PORT}`);
 })
