@@ -42,6 +42,6 @@ io.on('connection', (client) => {
     })
 })
 
-serverJs.listen(server_port, () => {
+serverJs.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 })
